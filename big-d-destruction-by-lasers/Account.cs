@@ -6,10 +6,10 @@ namespace big_d_destruction_by_lasers
 {
     internal class Account
     {
+        private readonly List<Movement> _credits;
+        private readonly List<Movement> _debits;
         private int _account;
         private float _balance;
-        private readonly List<Movement> _debits;
-        private readonly List<Movement> _credits;
 
         public Account(float balance, int account)
         {
@@ -23,10 +23,10 @@ namespace big_d_destruction_by_lasers
         {
             Contract.Requires<BalanceException>(credit.Amount > 0);
             Contract.EnsuresOnThrow<BalanceException>(
-                Contract.OldValue<int>(_credits.Count) == _credits.Count
+                Contract.OldValue(_credits.Count) == _credits.Count
             );
             Contract.EnsuresOnThrow<BalanceException>(
-                Contract.OldValue<float>(_balance) == _balance
+                Contract.OldValue(_balance) == _balance
             );
             _credits.Add(credit);
             _balance += credit.Amount;
@@ -36,11 +36,11 @@ namespace big_d_destruction_by_lasers
         {
             Contract.Requires<BalanceException>(debit.Amount > 0);
             Contract.EnsuresOnThrow<BalanceException>(
-                Contract.OldValue<int>(_debits.Count) == _debits.Count
+                Contract.OldValue(_debits.Count) == _debits.Count
             );
             Contract.EnsuresOnThrow<BalanceException>(
-               Contract.OldValue<float>(_balance) == _balance
-           );
+                Contract.OldValue(_balance) == _balance
+            );
             _debits.Add(debit);
             _balance -= debit.Amount;
         }
@@ -54,7 +54,6 @@ namespace big_d_destruction_by_lasers
         {
             return _credits.Count;
         }
-
 
 
         [ContractInvariantMethod]

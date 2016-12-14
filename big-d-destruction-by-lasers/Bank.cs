@@ -6,9 +6,9 @@ namespace big_d_destruction_by_lasers
 {
     internal class Bank
     {
+        private readonly List<Account> _accountList;
+        private readonly List<Customer> _customersList;
         private string _name;
-        private List<Customer> _customersList;
-        private List<Account> _accountList;
 
 
         public Bank(string name)
@@ -23,12 +23,12 @@ namespace big_d_destruction_by_lasers
             Contract.Requires<MovementException>(amount > 0);
             Contract.Requires<MovementException>(source != target);
             Contract.EnsuresOnThrow<MovementException>(
-                Contract.OldValue<int>(source.CountDebits()) == source.CountDebits()
-            );  
-            Contract.EnsuresOnThrow<MovementException>(
-                Contract.OldValue<int>(target.CountCredits()) == target.CountCredits()
+                Contract.OldValue(source.CountDebits()) == source.CountDebits()
             );
-            
+            Contract.EnsuresOnThrow<MovementException>(
+                Contract.OldValue(target.CountCredits()) == target.CountCredits()
+            );
+
 
             source.AddDebit(new Movement(amount, new DateTime()));
             target.AddCredit(new Movement(amount, new DateTime()));
